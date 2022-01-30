@@ -36,8 +36,7 @@ public class DeviceBan extends PluginBase {
         Config c = new Config(this.getDataFolder() + "/config.yml", Config.YAML);
         this.deviceBanConfig = new DeviceBanConfig(this, c.getRootSection());
 
-        Config b = new Config(this.getDataFolder() + "/bans.yml", Config.YAML);
-        this.bans = new Bans(this, b.getRootSection());
+        this.bans = new Bans(this, this.getDataFolder());
     }
 
     public void saveConfigs() {

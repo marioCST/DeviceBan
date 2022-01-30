@@ -1,93 +1,86 @@
 package de.mariocst.deviceban;
 
 import cn.nukkit.Player;
-import cn.nukkit.utils.Config;
-import cn.nukkit.utils.ConfigSection;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Bans {
     private final DeviceBan plugin;
-    private final ConfigSection config;
 
-    private final HashMap<String, List<String>> bans = new HashMap<>();
+    private final File file;
 
-    public Bans(DeviceBan plugin, ConfigSection config) {
+    private final List<String> bans = new ArrayList<>();
+
+    public Bans(DeviceBan plugin, File path) {
         this.plugin = plugin;
-        this.config = config;
 
-        if (this.config.containsKey("bans")) {
-            for (String string : this.config.getSection("bans").getKeys()) {
-                this.bans.put(string, (List<String>) this.config.getSection("bans").get(string));
+        if (!path.exists()) path.mkdirs();
+
+        this.file = new File(path + "/bans.txt");
+
+        if (!this.file.exists()) {
+            try {
+                this.file.createNewFile();
             }
+            catch (IOException ignored) { }
         }
+
+        try {
+            this.bans.addAll(Files.readAllLines(this.file.toPath()));
+        }
+        catch (IOException ignored) { }
     }
 
     public void addBan(Player player, String reason) {
-        List<String> list = new ArrayList<>();
-
-        list.add("name: " + player.getName());
-        list.add("reason: " + reason);
-
-        this.bans.put(player.getLoginChainData().getDeviceId(), list);
+        this.bans.add(player.getLoginChainData().getDeviceId() + ":" + player.getName() + ":" + reason);
         this.save();
     }
 
     public boolean containsDevice(Player player) {
-        try {
-            return this.bans.containsKey(player.getLoginChainData().getDeviceId()) || this.config.getSection("bans").containsKey(player.getLoginChainData().getDeviceId());
+        for (String string : this.bans) {
+            String[] strings = string.split(":");
+
+            if (strings[0].equals(player.getLoginChainData().getDeviceId())) return true;
         }
-        catch (ClassCastException ignored) { }
         return false;
     }
 
     public boolean containsName(Player player) {
-        for (String ban : this.bans.keySet()) {
-            return this.bans.get(ban).contains("name: " + player.getName());
+        for (String string : this.bans) {
+            String[] strings = string.split(":");
+
+            if (strings[1].equals(player.getLoginChainData().getDeviceId())) return true;
         }
-
-        for (String ban : this.config.getSection("bans").keySet()) {
-            List<String> list = (List<String>) this.config.getSection("bans").get(ban);
-
-            return list.contains("name: " + player.getName());
-        }
-
         return false;
     }
 
     public String getReason(String deviceId) {
-        for (String ban : this.bans.keySet()) {
-            for (String string : this.bans.get(ban)) {
-                if (string.startsWith("reason: ")) {
-                    return string.replaceAll("reason: ", "");
-                }
+        for (String string : this.bans) {
+            String[] strings = string.split(":");
+
+            if (strings[0].equals(deviceId)) {
+                if (!strings[2].equals("")) return strings[2];
             }
         }
-
-        for (String ban : this.config.getSection("bans").keySet()) {
-            List<String> list = (List<String>) this.config.getSection("bans").get(ban);
-
-            for (String s : list) {
-                if (s.startsWith("reason: ")) {
-                    return s.replaceAll("reason: ", "");
-                }
-            }
-        }
-
         return "";
     }
 
     public void removeBan(String deviceId) {
-        this.bans.remove(deviceId);
+        this.bans.removeIf(string -> string.startsWith(deviceId));
         this.save();
     }
 
     public void save() {
-        if (!this.bans.isEmpty()) this.config.put("bans", this.bans);
-        Config c = new Config(this.plugin.getDataFolder() + "/bans.yml", Config.YAML);
-        c.setAll(this.config);
-        c.save();
+        try {
+            Files.write(this.file.toPath(), this.bans);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            this.plugin.log("Couldn't write to ban file!");
+        }
     }
 }

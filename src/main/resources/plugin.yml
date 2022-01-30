@@ -1,0 +1,6 @@
+name: DeviceBan
+version: 1.0.0
+api: 1.0.13
+main: de.mariocst.deviceban.DeviceBan
+author: marioCST
+description: Ban the Device a player is playing on!

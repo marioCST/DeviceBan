@@ -16,7 +16,7 @@ public class JoinListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        this.plugin.log(player.getName() + " " + player.getLoginChainData().getDeviceId());
+        this.plugin.log(player.getName() + " DeviceID: " + player.getLoginChainData().getDeviceId() + " OS ID: " + player.getLoginChainData().getDeviceOS());
 
         if (this.plugin.getBans().containsDevice(player)) {
             if (this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()).equals("")) {

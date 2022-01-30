@@ -36,7 +36,11 @@ public class Bans {
     }
 
     public boolean containsDevice(Player player) {
-        return this.bans.containsKey(player.getLoginChainData().getDeviceId()) || this.config.getSection("bans").containsKey(player.getLoginChainData().getDeviceId());
+        try {
+            return this.bans.containsKey(player.getLoginChainData().getDeviceId()) || this.config.getSection("bans").containsKey(player.getLoginChainData().getDeviceId());
+        }
+        catch (ClassCastException ignored) { }
+        return false;
     }
 
     public boolean containsName(Player player) {

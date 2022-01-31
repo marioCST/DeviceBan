@@ -40,6 +40,11 @@ public class Bans {
         this.save();
     }
 
+    public void addDeviceId(String id, String reason) {
+        this.bans.add(id + ":Unknown:" + reason + ":Unknown:Unknown");
+        this.save();
+    }
+
     public boolean containsDevice(Player player) {
         for (String string : this.bans) {
             String[] strings = string.split(":");

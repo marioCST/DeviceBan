@@ -61,12 +61,28 @@ public class DeviceBanCommand extends Command {
                         }
                         break;
                     }
+                    case "banid": {
+                        if (args.length >= 3) {
+                            StringBuilder stringBuilder = new StringBuilder();
+                            for (int i = 2; i < args.length; i++) {
+                                stringBuilder.append(args[i]).append(" ");
+                            }
+
+                            this.plugin.getBans().addDeviceId(args[1], stringBuilder.toString().replaceAll("&", "§"));
+                            sender.sendMessage(this.plugin.getPrefix() + "The device id " + args[1] + " got banned for " + stringBuilder.toString().replaceAll("&", "§") + "§f!");
+                        }
+                        else {
+                            this.plugin.getBans().addDeviceId(args[1], "");
+                            sender.sendMessage(this.plugin.getPrefix() + "The device id " + args[1] + " got banned!");
+                        }
+                        break;
+                    }
                     case "unban": {
                         this.plugin.getBans().removeBan(args[1]);
                         sender.sendMessage(this.plugin.getPrefix() + "The DeviceID " + args[1] + " got unbanned!");
                         break;
                     }
-                    default: sender.sendMessage(this.plugin.getPrefix() + "/db <config|ban|unban>");
+                    default: sender.sendMessage(this.plugin.getPrefix() + "/db <config|ban|banid|unban>");
                 }
             }
             else {
@@ -123,12 +139,28 @@ public class DeviceBanCommand extends Command {
                         }
                         break;
                     }
+                    case "banid": {
+                        if (args.length >= 3) {
+                            StringBuilder stringBuilder = new StringBuilder();
+                            for (int i = 2; i < args.length; i++) {
+                                stringBuilder.append(args[i]).append(" ");
+                            }
+
+                            this.plugin.getBans().addDeviceId(args[1], stringBuilder.toString().replaceAll("&", "§"));
+                            player.sendMessage(this.plugin.getPrefix() + "The device id " + args[1] + " got banned for " + stringBuilder.toString().replaceAll("&", "§") + "§f!");
+                        }
+                        else {
+                            this.plugin.getBans().addDeviceId(args[1], "");
+                            player.sendMessage(this.plugin.getPrefix() + "The device id " + args[1] + " got banned!");
+                        }
+                        break;
+                    }
                     case "unban": {
                         this.plugin.getBans().removeBan(args[1]);
                         player.sendMessage(this.plugin.getPrefix() + "The DeviceID " + args[1] + " got unbanned!");
                         break;
                     }
-                    default: player.sendMessage(this.plugin.getPrefix() + "/db <config|ban|unban>");
+                    default: player.sendMessage(this.plugin.getPrefix() + "/db <config|ban|banid|unban>");
                 }
             }
             else {

@@ -86,7 +86,7 @@ public class DeviceBanCommand extends Command {
                 }
             }
             else {
-                sender.sendMessage(this.plugin.getPrefix() + "/db <config|ban|unban>");
+                sender.sendMessage(this.plugin.getPrefix() + "/db <config|ban|banid|unban>");
             }
             return true;
         }
@@ -164,7 +164,7 @@ public class DeviceBanCommand extends Command {
                 }
             }
             else {
-                player.sendMessage(this.plugin.getPrefix() + "/db <config|ban|unban>");
+                player.sendMessage(this.plugin.getPrefix() + "/db <config|ban|banid|unban>");
             }
         }
         else {

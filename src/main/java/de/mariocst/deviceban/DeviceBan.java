@@ -2,6 +2,7 @@ package de.mariocst.deviceban;
 
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
+import de.mariocst.deviceban.formutils.FormListener;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,12 +16,18 @@ public class DeviceBan extends PluginBase {
 
     private DeviceBanConfig deviceBanConfig;
 
+    @Getter
+    private BanForm banForm;
+
     @Override
     public void onEnable() {
         this.loadConfigs();
 
         this.getServer().getCommandMap().register("deviceban", new DeviceBanCommand(this));
+        this.getServer().getPluginManager().registerEvents(new FormListener(), this);
         this.getServer().getPluginManager().registerEvents(new JoinListener(this), this);
+
+        this.banForm = new BanForm();
 
         this.log("DeviceBan enabled!");
     }

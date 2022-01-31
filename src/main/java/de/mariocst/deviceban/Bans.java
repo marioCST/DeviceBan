@@ -81,6 +81,17 @@ public class Bans {
         return false;
     }
 
+    public ArrayList<String> getDeviceIds() {
+        ArrayList<String> list = new ArrayList<>();
+
+        for (String string : this.bans) {
+            String[] strings = string.split(":");
+            list.add(strings[0]);
+        }
+
+        return list;
+    }
+
     public String getReason(String deviceId) {
         for (String string : this.bans) {
             String[] strings = string.split(":");

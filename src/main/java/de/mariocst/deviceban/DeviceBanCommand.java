@@ -163,8 +163,14 @@ public class DeviceBanCommand extends Command {
                     default: player.sendMessage(this.plugin.getPrefix() + "/db <config|ban|banid|unban>");
                 }
             }
+            else if (args.length == 1 && args[0].equalsIgnoreCase("banform")) {
+                this.plugin.getBanForm().openBanForm(this.plugin, player);
+            }
+            else if (args.length == 1 && args[0].equalsIgnoreCase("unbanform")) {
+                this.plugin.getBanForm().openUnbanForm(this.plugin, player);
+            }
             else {
-                player.sendMessage(this.plugin.getPrefix() + "/db <config|ban|banid|unban>");
+                player.sendMessage(this.plugin.getPrefix() + "/db <config|ban|banid|unban|banform|unbanform>");
             }
         }
         else {

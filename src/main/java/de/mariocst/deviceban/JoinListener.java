@@ -22,12 +22,12 @@ public class JoinListener implements Listener {
             if (this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()).equals("")) {
                 player.kick("Kicked by admin", false);
                 this.plugin.log("The player " + player.getName() + " tried to connect while being device banned!");
-                if (!this.plugin.getBans().containsName(player)) this.plugin.getBans().addBan(player, "");
+                if (!this.plugin.getBans().containsName(player) && !this.plugin.getBans().containsUUID(player) && !this.plugin.getBans().containsXUID(player)) this.plugin.getBans().addBan(player, "");
             }
             else {
                 player.kick(this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()), false);
                 this.plugin.log("The player " + player.getName() + " tried to connect while being device banned!");
-                if (!this.plugin.getBans().containsName(player)) this.plugin.getBans().addBan(player, this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()));
+                if (!this.plugin.getBans().containsName(player) && !this.plugin.getBans().containsUUID(player) && !this.plugin.getBans().containsXUID(player)) this.plugin.getBans().addBan(player, this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()));
             }
         }
 
@@ -35,12 +35,38 @@ public class JoinListener implements Listener {
             if (this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()).equals("")) {
                 player.kick("Kicked by admin", false);
                 this.plugin.log("The player " + player.getName() + " tried to connect while being device banned!");
-                if (!this.plugin.getBans().containsDevice(player)) this.plugin.getBans().addBan(player, "");
+                if (!this.plugin.getBans().containsDevice(player) && !this.plugin.getBans().containsUUID(player) && !this.plugin.getBans().containsXUID(player)) this.plugin.getBans().addBan(player, "");
             }
             else {
                 player.kick(this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()), false);
                 this.plugin.log("The player " + player.getName() + " tried to connect while being device banned!");
-                if (!this.plugin.getBans().containsDevice(player)) this.plugin.getBans().addBan(player, this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()));
+                if (!this.plugin.getBans().containsDevice(player) && !this.plugin.getBans().containsUUID(player) && !this.plugin.getBans().containsXUID(player)) this.plugin.getBans().addBan(player, this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()));
+            }
+        }
+
+        if (this.plugin.getBans().containsUUID(player)) {
+            if (this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()).equals("")) {
+                player.kick("Kicked by admin", false);
+                this.plugin.log("The player " + player.getName() + " tried to connect while being device banned!");
+                if (!this.plugin.getBans().containsDevice(player) && !this.plugin.getBans().containsName(player) && !this.plugin.getBans().containsXUID(player)) this.plugin.getBans().addBan(player, "");
+            }
+            else {
+                player.kick(this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()), false);
+                this.plugin.log("The player " + player.getName() + " tried to connect while being device banned!");
+                if (!this.plugin.getBans().containsDevice(player) && !this.plugin.getBans().containsName(player) && !this.plugin.getBans().containsXUID(player)) this.plugin.getBans().addBan(player, this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()));
+            }
+        }
+
+        if (this.plugin.getBans().containsXUID(player)) {
+            if (this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()).equals("")) {
+                player.kick("Kicked by admin", false);
+                this.plugin.log("The player " + player.getName() + " tried to connect while being device banned!");
+                if (!this.plugin.getBans().containsDevice(player) && !this.plugin.getBans().containsName(player) && !this.plugin.getBans().containsUUID(player)) this.plugin.getBans().addBan(player, "");
+            }
+            else {
+                player.kick(this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()), false);
+                this.plugin.log("The player " + player.getName() + " tried to connect while being device banned!");
+                if (!this.plugin.getBans().containsDevice(player) && !this.plugin.getBans().containsName(player) && !this.plugin.getBans().containsUUID(player)) this.plugin.getBans().addBan(player, this.plugin.getBans().getReason(player.getLoginChainData().getDeviceId()));
             }
         }
     }

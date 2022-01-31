@@ -36,7 +36,7 @@ public class Bans {
     }
 
     public void addBan(Player player, String reason) {
-        this.bans.add(player.getLoginChainData().getDeviceId() + ":" + player.getName() + ":" + reason);
+        this.bans.add(player.getLoginChainData().getDeviceId() + ":" + player.getName() + ":" + reason + ":" + player.getUniqueId().toString() + ":" + player.getLoginChainData().getXUID());
         this.save();
     }
 
@@ -54,6 +54,24 @@ public class Bans {
             String[] strings = string.split(":");
 
             if (strings[1].equals(player.getLoginChainData().getDeviceId())) return true;
+        }
+        return false;
+    }
+
+    public boolean containsUUID(Player player) {
+        for (String string : this.bans) {
+            String[] strings = string.split(":");
+
+            if (strings[3].equals(player.getUniqueId().toString())) return true;
+        }
+        return false;
+    }
+
+    public boolean containsXUID(Player player) {
+        for (String string : this.bans) {
+            String[] strings = string.split(":");
+
+            if (strings[4].equals(player.getLoginChainData().getXUID())) return true;
         }
         return false;
     }
